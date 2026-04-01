@@ -27,7 +27,7 @@ The `llama-cpp-python` dependency uses platform-specific pre-built wheels (CUDA 
 - **Node classes** (12 nodes total):
   - `llama_cpp_model_loader` — loads GGUF model + optional mmproj clip, configures GPU layers/VRAM limit
   - `llama_cpp_instruct_adv` — main inference node with multi-turn chat, image input, thinking mode, preset prompts
-  - `llama_cpp_parameters` — sampling parameters (temperature, top_p, top_k, etc.)
+  - `llama_cpp_parameters` — sampling parameters (temperature, top_p, top_k, stop_words, etc.). `stop_words` はカンマ区切り文字列で入力し、`process()` 内で `stop` リストに変換して `create_chat_completion()` に渡される
   - `llama_cpp_clean_states` / `llama_cpp_unload_model` — state/model management
   - `json_to_bbox`, `bbox_to_segs`, `bbox_to_mask`, `bboxes_to_bbox` — bounding box pipeline for vision detection results
   - `parse_json_node`, `remove_code_block` — output parsing utilities

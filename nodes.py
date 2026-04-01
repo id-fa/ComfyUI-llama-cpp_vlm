@@ -608,6 +608,10 @@ class llama_cpp_parameters:
                 "mirostat_mode": ("INT", {"default": 0, "min": 0, "max": 2, "step": 1}),
                 "mirostat_eta": ("FLOAT", {"default": 0.1, "min": 0.0, "max": 1.0, "step": 0.01}),
                 "mirostat_tau": ("FLOAT", {"default": 5.0, "min": 0.0, "max": 10.0, "step": 0.01}),
+                "stop_words": ("STRING", {
+                    "default": "",
+                    "tooltip": "Comma-separated stop words. Generation stops when any of these are encountered."
+                }),
                 "state_uid": ("INT", {
                     "default": -1, "min": -1, "max": 999999, "step": 1,
                     "tooltip": "Use a specific ID to save the conversation state.\n(-1 = use node's unique_id)"
@@ -619,6 +623,9 @@ class llama_cpp_parameters:
     FUNCTION = "process"
     CATEGORY = "llama-cpp-vlm"
     def process(self, **kwargs):
+        stop_words = kwargs.pop("stop_words", "")
+        if stop_words.strip():
+            kwargs["stop"] = [w.strip() for w in stop_words.split(",") if w.strip()]
         return (kwargs,)
     
 class llama_cpp_clean_states:

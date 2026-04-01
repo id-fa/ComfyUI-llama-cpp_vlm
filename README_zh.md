@@ -14,8 +14,16 @@ git clone https://github.com/lihaoyun6/ComfyUI-llama-cpp.git
 python -m pip install -r ComfyUI-llama-cpp/requirements.txt
 ```
 
+如果预编译的 `llama-cpp-python` 安装失败，请尝试从源码构建:  
+```bash
+pip uninstall llama-cpp-python -y
+set FORCE_CMAKE=1
+set CMAKE_ARGS=-DGGML_CUDA=on
+pip install llama-cpp-python --no-cache-dir
+```
+
 ### 模型路径:
-- 请将下载的 `.gguf` 模型放置在 `ComfyUI/models/LLM` 目录中.  
+- 请将下载的 `.gguf` 模型放置在 `ComfyUI/models/text_encoders` 目录中.  
 
 	> 在使用VLM模型进行图像推理之前, 请确保已经下载并选择了主模型对应的`mmproj`权重文件.
 
