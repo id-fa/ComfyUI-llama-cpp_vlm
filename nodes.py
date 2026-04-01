@@ -354,7 +354,7 @@ class llama_cpp_model_loader:
     RETURN_TYPES = ("LLAMACPPMODEL",)
     RETURN_NAMES = ("llama_model",)
     FUNCTION = "loadmodel"
-    CATEGORY = "llama-cpp-vlm"
+    CATEGORY = "llama-cpp-vlm-f"
     
     '''
     @classmethod
@@ -441,7 +441,7 @@ class llama_cpp_instruct_adv:
     RETURN_NAMES = ("output", "output_list", "state_uid")
     OUTPUT_IS_LIST = (False, True, False)
     FUNCTION = "process"
-    CATEGORY = "llama-cpp-vlm"
+    CATEGORY = "llama-cpp-vlm-f"
     
     def sanitize_messages(self, messages):
         clean_messages = messages.copy()
@@ -621,7 +621,7 @@ class llama_cpp_parameters:
     RETURN_TYPES = ("LLAMACPPARAMS",)
     RETURN_NAMES = ("parameters",)
     FUNCTION = "process"
-    CATEGORY = "llama-cpp-vlm"
+    CATEGORY = "llama-cpp-vlm-f"
     def process(self, **kwargs):
         stop_words = kwargs.pop("stop_words", "")
         if stop_words.strip():
@@ -644,7 +644,7 @@ class llama_cpp_clean_states:
     RETURN_TYPES = (any_type,)
     RETURN_NAMES = ("any",)
     FUNCTION = "process"
-    CATEGORY = "llama-cpp-vlm"
+    CATEGORY = "llama-cpp-vlm-f"
     
     def process(self, any, state_uid):
         print(f"[llama-cpp_vlm] Cleaning up saved states {state_uid}...")
@@ -659,7 +659,7 @@ class llama_cpp_unload_model:
     RETURN_TYPES = (any_type,)
     RETURN_NAMES = ("any",)
     FUNCTION = "process"
-    CATEGORY = "llama-cpp-vlm"
+    CATEGORY = "llama-cpp-vlm-f"
     
     def process(self, any):
         print("[llama-cpp_vlm] Unloading llama model...")
@@ -689,7 +689,7 @@ class json_to_bbox:
     OUTPUT_IS_LIST = (True, True)
     INPUT_IS_LIST = True
     FUNCTION = "process"
-    CATEGORY = "llama-cpp-vlm"
+    CATEGORY = "llama-cpp-vlm-f"
     
     def process(self, json, mode, label, image=None):
         mode = mode[0]
@@ -785,7 +785,7 @@ class bbox_to_segs:
     
     RETURN_TYPES = ("SEGS",)
     FUNCTION = "process"
-    CATEGORY = "llama-cpp-vlm"
+    CATEGORY = "llama-cpp-vlm-f"
     
     def process(self, bboxes, image, dilation, feather):
         _batch_size, height, width, _channels = image.shape
@@ -872,7 +872,7 @@ class bbox_to_mask:
     RETURN_TYPES = ("MASK",)
     RETURN_NAMES = ("mask",)
     FUNCTION = "process"
-    CATEGORY = "llama-cpp-vlm"
+    CATEGORY = "llama-cpp-vlm-f"
     
     def process(self, bboxes, image, dilation, feather):
         masks = []
@@ -943,7 +943,7 @@ class bboxes_to_bbox:
     RETURN_TYPES = ("BBOX",)
     RETURN_NAMES = ("bbox",)
     FUNCTION = "process"
-    CATEGORY = "llama-cpp-vlm"
+    CATEGORY = "llama-cpp-vlm-f"
     
     def process(self, bboxes, image_index, bbox_index):
         if bbox_index != 999:
@@ -967,7 +967,7 @@ class parse_json_node:
     RETURN_TYPES = (any_type, "STRING", "INT", "FLOAT", "BOOLEAN")
     RETURN_NAMES = ("any", "string", "int", "float", "boolean")
     FUNCTION = "process"
-    CATEGORY = "llama-cpp-vlm"
+    CATEGORY = "llama-cpp-vlm-f"
     
     def process(self, input, key=None, default=None):
         if isinstance(input, str):
@@ -1037,7 +1037,7 @@ class remove_code_block:
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("output",)
     FUNCTION = "process"
-    CATEGORY = "llama-cpp-vlm"
+    CATEGORY = "llama-cpp-vlm-f"
     
     def process(self, input, label):
         if isinstance(input, str):
@@ -1062,7 +1062,7 @@ class PromptEnhancerPreset:
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("system_prompt",)
     FUNCTION = "main"
-    CATEGORY = "llama-cpp-vlm"
+    CATEGORY = "llama-cpp-vlm-f"
     
     def main(self, preset):
         match preset:
