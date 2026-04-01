@@ -1,7 +1,7 @@
 [project]
-name = "llama-cpp_vllm"
+name = "llama-cpp_vlm-f"
 description = "Run LLM/VLM models natively in ComfyUI based on llama.cpp"
-version = "1.2.6"
+version = "1.2.6+mod1"
 license = {file = "LICENSE"} 
  classifiers = [
 #     # For OS-independent nodes (works on all operating systems)
@@ -23,15 +23,13 @@ license = {file = "LICENSE"}
 dependencies = ["diskcache", "scipy", "numpy", "pillow", "gguf"]
 
 [project.urls]
-Repository = "https://github.com/lihaoyun6/ComfyUI-llama-cpp_vlm"
-#  Used by Comfy Registry https://registry.comfy.org
-Documentation = "https://github.com/lihaoyun6/ComfyUI-llama-cpp_vlm/wiki"
-"Bug Tracker" = "https://github.com/lihaoyun6/ComfyUI-llama-cpp_vlm/issues"
+Repository = "https://github.com/id-fa/ComfyUI-llama-cpp_vlm"
 
 [tool.comfy]
-PublisherId = "lhy666"
-DisplayName = "ComfyUI-llama-cpp_vlm"
+PublisherId = "id-fa"
+DisplayName = "llama-cpp_vlm-f"
 Icon = ""
 includes = [] 
 # "requires-comfyui" = ">=1.0.0"  # ComfyUI version compatibility
+Repository = "https://github.com/id-fa/ComfyUI-llama-cpp_vlm"
 

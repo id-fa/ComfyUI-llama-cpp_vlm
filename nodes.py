@@ -5,6 +5,7 @@ import json
 import base64
 import random
 import torch
+import logging
 
 import numpy as np
 from PIL import Image, ImageDraw
@@ -163,7 +164,7 @@ class LLAMA_CPP_STORAGE:
         image_min_tokens = config["image_min_tokens"]
         n_gpu_layers = -1
         
-        model_path = os.path.join(folder_paths.models_dir, 'LLM', model)
+        model_path = folder_paths.get_full_path("llm_vl", model)
         handler = get_chat_handler(chat_handler)
         
         if vram_limit != -1:
@@ -172,7 +173,7 @@ class LLAMA_CPP_STORAGE:
             gguf_layer_size = gguf_size / gguf_layers
         
         if mmproj and mmproj != "None":
-            mmproj_path = os.path.join(folder_paths.models_dir, 'LLM', mmproj)
+            mmproj_path = folder_paths.get_full_path("llm_vl", mmproj)
             if chat_handler == "None":
                 raise ValueError('"chat_handler" cannot be None!')
             
@@ -223,8 +224,19 @@ if not hasattr(mm, "unload_all_models_backup"):
     mm.unload_all_models = patched_unload_all_models
     print("[llama-cpp_vlm] Model cleanup hook applied!")
 
-llm_extensions = ['.ckpt', '.pt', '.bin', '.pth', '.safetensors', '.gguf']
-folder_paths.folder_names_and_paths["LLM"] = ([os.path.join(folder_paths.models_dir, "LLM")], llm_extensions)
+def update_folder_names_and_paths(key, targets=[]):
+    base = folder_paths.folder_names_and_paths.get(key, ([], {}))
+    base = base[0] if isinstance(base[0], (list, set, tuple)) else []
+    target = next(
+        (x for x in targets if x in folder_paths.folder_names_and_paths), targets[0]
+    )
+    orig, _ = folder_paths.folder_names_and_paths.get(target, ([], {}))
+    folder_paths.folder_names_and_paths[key] = (orig or base, {".gguf"})
+    if base and base != orig:
+        logging.warning(
+            f"Unknown file list already present on key {key}: {base}")
+
+update_folder_names_and_paths("llm_vl", ["text_encoders"])
 preset_prompts = {
     "Empty - Nothing": "",
     "Normal - Describe": "Describe this @.",
@@ -316,7 +328,7 @@ def draw_bbox(image, json, mode):
 class llama_cpp_model_loader:
     @classmethod
     def INPUT_TYPES(s):
-        all_llms = folder_paths.get_filename_list("LLM")
+        all_llms = folder_paths.get_filename_list("llm_vl")
         model_list = [f for f in all_llms if "mmproj" not in f.lower()]
         mmproj_list = ["None"]+[f for f in all_llms if "mmproj" in f.lower()]
             
